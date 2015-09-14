@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from itertools import chain
-from atores import ATIVO
+from atores import ATIVO, Ator
 
 
 VITORIA = 'VITORIA'
@@ -38,28 +38,14 @@ class Fase():
 
 
     def adicionar_obstaculo(self, *obstaculos):
-        """
-        Adiciona obstáculos em uma fase
-
-        :param obstaculos:
-        """
-        pass
+        return self ._obstaculos.extend(obstaculos)
+        
 
     def adicionar_porco(self, *porcos):
-        """
-        Adiciona porcos em uma fase
-
-        :param porcos:
-        """
-        pass
+        return self._porcos.extend(porcos)
 
     def adicionar_passaro(self, *passaros):
-        """
-        Adiciona pássaros em uma fase
-
-        :param passaros:
-        """
-        pass
+        return self._passaros.extend(passaros)
 
     def status(self):
         """
@@ -99,6 +85,8 @@ class Fase():
         :return: objeto do tipo Ponto
         """
         pontos=[]
+        for Ator in self._passaros + self._obstaculos+ self._porcos:
+            pontos.append(self._transformar_em_ponto(Ator))
 
         return pontos
 
