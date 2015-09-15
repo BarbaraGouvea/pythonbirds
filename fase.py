@@ -48,6 +48,22 @@ class Fase():
         return self._passaros.extend(passaros)
 
     def status(self):
+        passaros = 0
+        porcos = 0
+        for passaro in self._passaros:
+            if passaro.status == ATIVO:
+                passaros += 1
+
+        for porco in self._porcos:
+            if porco.status == ATIVO:
+                porcos += 1
+
+        if passaros !=0 and porcos !=0:
+            return EM_ANDAMENTO
+        elif porcos!=0:# len(self._passaros)==0 and len(self._porcos)!=0:
+            return DERROTA
+        else:
+            return VITORIA
         """
         Método que indica com mensagem o status do jogo
 
@@ -59,9 +75,17 @@ class Fase():
 
         :return:
         """
-        return EM_ANDAMENTO
+
 
     def lancar(self, angulo, tempo):
+
+        if self.foi_lancado():
+
+
+           # if len(self._passaros)!=0:
+
+        #delta_t= t_final - t_inicial;
+
         """
         Método que executa lógica de lançamento.
 
@@ -72,7 +96,6 @@ class Fase():
         :param angulo: ângulo de lançamento
         :param tempo: Tempo de lançamento
         """
-        pass
 
 
     def calcular_pontos(self, tempo):
