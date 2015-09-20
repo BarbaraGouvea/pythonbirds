@@ -44,7 +44,6 @@ class Ator():
         return self.x, self.y
 
     def colidir(self, outro_ator, intervalo=1):
-
         if self.status==ATIVO and outro_ator.status==ATIVO:
             if outro_ator.x-intervalo<=self.x<=outro_ator.x+intervalo and outro_ator.y-intervalo<=self.y<=outro_ator.y+intervalo:
             #if self.x - intervalo <= outro_ator.x <= self.x + intervalo and self.y - intervalo <= outro_ator.y <= self.y + intervalo:
@@ -52,10 +51,6 @@ class Ator():
                 self.caracter()
                 outro_ator.status = DESTRUIDO
                 outro_ator.caracter()
-
-
-
-
         ''' Método que executa lógica de colisão entre dois atores.
         Só deve haver colisão se os dois atores tiverem seus status ativos.
         Para colisão, é considerado um quadrado, com lado igual ao parâmetro intervalo, em volta do ponto onde se

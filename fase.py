@@ -45,19 +45,19 @@ class Fase():
         self._passaros.extend(passaros)
 
     def status(self):
-        passaros = 0
-        porcos = 0
-        for passaro in self._passaros:
-            if passaro.status == ATIVO:
-                passaros += 1
+        birds = 0
+        pigs = 0
+        for pas in self._passaros:
+            if pas.status == ATIVO:
+                birds += 1
 
-        for porco in self._porcos:
-            if porco.status == ATIVO:
-                porcos += 1
+        for por in self._porcos:
+            if por.status == ATIVO:
+                pigs += 1
 
-        if passaros == 0 and porcos!=0:
+        if birds == 0 and pigs!=0:
             return DERROTA
-        elif porcos == 0:  # len(self._passaros)==0 and len(self._porcos)!=0:
+        elif pigs == 0:  # len(self._passaros)==0 and len(self._porcos)!=0:
             return VITORIA
         else:
             return EM_ANDAMENTO
@@ -79,6 +79,7 @@ class Fase():
             if b.status == ATIVO and not b.foi_lancado():
                 b.lancar(angulo, tempo)
                 break
+
         """
         Método que executa lógica de lançamento.
 
@@ -106,7 +107,6 @@ class Fase():
                 else:
                     break
             pontos.append(self._transformar_em_ponto(pa))
-
         for ator in self._porcos + self._obstaculos:
             pontos.append(self._transformar_em_ponto(ator))
 
