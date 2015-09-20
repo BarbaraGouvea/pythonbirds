@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+from dis import _format_code_info
 import math
 from _ast import Return
 
@@ -30,7 +31,9 @@ class Ator():
     def caracter(self):
         return self._caracter_ativo if self.status == ATIVO else self._caracter_destruido
 
+
     def calcular_posicao(self, tempo):
+
         """
         Método que calcula a posição do ator em determinado tempo.
         Deve-se imaginar que o tempo começa em 0 e avança de 0,01 segundos
@@ -43,9 +46,12 @@ class Ator():
     def colidir(self, outro_ator, intervalo=1):
 
         if self.status==ATIVO and outro_ator.status==ATIVO:
-            if self.x - intervalo <= outro_ator.x + intervalo and self.y-intervalo<=outro_ator.y<=self.y+intervalo:
-                    self.status = DESTRUIDO
-                    outro_ator.status = DESTRUIDO
+            if outro_ator.x-intervalo<=self.x<=outro_ator.x+intervalo and outro_ator.y-intervalo<=self.y<=outro_ator.y+intervalo:
+            #if self.x - intervalo <= outro_ator.x <= self.x + intervalo and self.y - intervalo <= outro_ator.y <= self.y + intervalo:
+                self.status = DESTRUIDO
+                self.caracter()
+                outro_ator.status = DESTRUIDO
+                outro_ator.caracter()
 
 
 
@@ -66,7 +72,7 @@ class Ator():
 
 class Obstaculo(Ator):
     _caracter_ativo = 'O'
-    _caracter_destruido = '+'
+
 
 
 class Porco(Ator):
@@ -95,48 +101,45 @@ class Passaro(Ator):
         self._angulo_de_lancamento = None  # radianos
 
     def foi_lancado(self):
-        if self._tempo_de_lancamento==None:
-            return True
-        return False
-        """
-        Método que retorna verdadeira se o pássaro já foi lançado e falso caso contrário
-
-        :return: booleano
-        """
-        pass
+        return self._tempo_de_lancamento is not None
 
     def colidir_com_chao(self):
         """
         Método que executa lógica de colisão com o chão. Toda vez que y for menor ou igual a 0,
         o status dos Passaro deve ser alterado para destruido, bem como o seu caracter
-
         """
         if self.y<=0:
             self.status=DESTRUIDO
+            self.caracter()
+
 
     def calcular_posicao(self, tempo):
-        """
-        Método que cálcula a posição do passaro de acordo com o tempo.
+        if self.foi_lancado() and self.status==ATIVO:
+            delta_t=tempo-self._tempo_de_lancamento
+            self.x=self._x_inicial+ self.velocidade_escalar*math.cos(self._angulo_de_lancamento)*delta_t
+            self.y=self._y_inicial+ self.velocidade_escalar*math.sin(self._angulo_de_lancamento)*delta_t-(GRAVIDADE*delta_t**2)/2
+        return self.x, self.y
 
-        Antes do lançamento o pássaro deve retornar o valor de sua posição inicial
 
-        Depois do lançamento o pássaro deve calcular de acordo com sua posição inicial, velocidade escalar,
-        ângulo de lancamento, gravidade (constante GRAVIDADE) e o tempo do jogo.
 
-        Após a colisão, ou seja, ter seus status destruido, o pássaro deve apenas retornar a última posição calculada.
-
-        :param tempo: tempo de jogo a ser calculada a posição
-        :return: posição x, y
-        """
-        return 1, 1
 
 
     def lancar(self, angulo, tempo_de_lancamento):
-        self.angulo=math.radians(angulo)
-        self._tempo_de_lancamento=tempo_de_lancamento;
+
+        self._angulo_de_lancamento=math.radians(angulo)
+        self._tempo_de_lancamento=tempo_de_lancamento
+
+
+
+
 
 
         """
+        o self é o a variavel do atributo
+        temm atributo de classe ou objeto e tem q descobrir de qual é.
+        se ta dentro do init é de objeto
+        se o self
+        METODO LANÇAR: AQUI VAI A FORMULA DO DELTA T Q E O FINAL MENOS O INICIAL
         Lógica que lança o pássaro. Deve armazenar o ângulo e o tempo de lançamento para posteriores cálculo.
         O ângulo é passado em graus e deve ser transformado em radianos
 
@@ -148,12 +151,12 @@ class Passaro(Ator):
 
 
 class PassaroAmarelo(Passaro):
-    velocidade_escalar = 30#m/s
+    velocidade_escalar = 30
     _caracter_ativo = "A"
     _caracter_destruido = 'a'
 
 class PassaroVermelho(Passaro):
-    velocidade_escalar=20#m/s
+    velocidade_escalar=20
     _caracter_ativo = "V"
     _caracter_destruido = 'v'
 

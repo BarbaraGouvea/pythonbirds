@@ -2,7 +2,6 @@
 from itertools import chain
 from atores import ATIVO, Ator
 
-
 VITORIA = 'VITORIA'
 DERROTA = 'DERROTA'
 EM_ANDAMENTO = 'EM_ANDAMENTO'
@@ -36,16 +35,14 @@ class Fase():
         self._porcos = []
         self._obstaculos = []
 
-
     def adicionar_obstaculo(self, *obstaculos):
-        return self ._obstaculos.extend(obstaculos)
-        
+        self._obstaculos.extend(obstaculos)
 
     def adicionar_porco(self, *porcos):
-        return self._porcos.extend(porcos)
+        self._porcos.extend(porcos)
 
     def adicionar_passaro(self, *passaros):
-        return self._passaros.extend(passaros)
+        self._passaros.extend(passaros)
 
     def status(self):
         passaros = 0
@@ -58,12 +55,12 @@ class Fase():
             if porco.status == ATIVO:
                 porcos += 1
 
-        if passaros !=0 and porcos !=0:
-            return EM_ANDAMENTO
-        elif porcos!=0:# len(self._passaros)==0 and len(self._porcos)!=0:
+        if passaros == 0 and porcos!=0:
             return DERROTA
-        else:
+        elif porcos == 0:  # len(self._passaros)==0 and len(self._porcos)!=0:
             return VITORIA
+        else:
+            return EM_ANDAMENTO
         """
         Método que indica com mensagem o status do jogo
 
@@ -76,16 +73,12 @@ class Fase():
         :return:
         """
 
-
     def lancar(self, angulo, tempo):
 
-        if self.foi_lancado():
-
-
-           # if len(self._passaros)!=0:
-
-        #delta_t= t_final - t_inicial;
-
+        for b in self._passaros:
+            if b.status == ATIVO and not b.foi_lancado():
+                b.lancar(angulo, tempo)
+                break
         """
         Método que executa lógica de lançamento.
 
@@ -94,25 +87,32 @@ class Fase():
         Se não houver esse tipo de pássaro, não deve fazer nada
 
         :param angulo: ângulo de lançamento
-        :param tempo: Tempo de lançamento
-        """
-
+        :param tempo: Tempo de lançamento"""
 
     def calcular_pontos(self, tempo):
         """
         Lógica que retorna os pontos a serem exibidos na tela.
-
         Cada ator deve ser transformado em um Ponto.
-
         :param tempo: tempo para o qual devem ser calculados os pontos
         :return: objeto do tipo Ponto
         """
         pontos=[]
-        for Ator in self._passaros + self._obstaculos+ self._porcos:
-            pontos.append(self._transformar_em_ponto(Ator))
+        for pa in self._passaros:
+            pa.calcular_posicao(tempo)
+            for ator in self._porcos + self._obstaculos:
+                if(pa.status == ATIVO):
+                    pa.colidir(ator, self.intervalo_de_colisao)
+                    pa.colidir_com_chao()
+                else:
+                    break
+            pontos.append(self._transformar_em_ponto(pa))
+
+        for ator in self._porcos + self._obstaculos:
+            pontos.append(self._transformar_em_ponto(ator))
 
         return pontos
 
+
+
     def _transformar_em_ponto(self, ator):
         return Ponto(ator.x, ator.y, ator.caracter())
-
