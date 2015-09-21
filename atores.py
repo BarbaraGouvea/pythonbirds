@@ -46,7 +46,6 @@ class Ator():
     def colidir(self, outro_ator, intervalo=1):
         if self.status==ATIVO and outro_ator.status==ATIVO:
             if outro_ator.x-intervalo<=self.x<=outro_ator.x+intervalo and outro_ator.y-intervalo<=self.y<=outro_ator.y+intervalo:
-            #if self.x - intervalo <= outro_ator.x <= self.x + intervalo and self.y - intervalo <= outro_ator.y <= self.y + intervalo:
                 self.status = DESTRUIDO
                 self.caracter()
                 outro_ator.status = DESTRUIDO
@@ -96,7 +95,15 @@ class Passaro(Ator):
         self._angulo_de_lancamento = None  # radianos
 
     def foi_lancado(self):
-        return self._tempo_de_lancamento is not None
+        if self._tempo_de_lancamento!=None:
+            return True
+        return False
+        """
+        Método que retorna verdadeira se o pássaro já foi lançado e falso caso contrário
+
+        :return: booleano
+        """
+
 
     def colidir_com_chao(self):
         """

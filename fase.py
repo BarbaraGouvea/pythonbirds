@@ -114,5 +114,6 @@ class Fase():
 
 
 
+
     def _transformar_em_ponto(self, ator):
         return Ponto(ator.x, ator.y, ator.caracter())
