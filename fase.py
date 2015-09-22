@@ -98,14 +98,14 @@ class Fase():
         :return: objeto do tipo Ponto
         """
         pontos=[]
+
         for pa in self._passaros:
             pa.calcular_posicao(tempo)
             for ator in self._porcos + self._obstaculos:
                 if(pa.status == ATIVO):
                     pa.colidir(ator, self.intervalo_de_colisao)
                     pa.colidir_com_chao()
-                else:
-                    break
+
             pontos.append(self._transformar_em_ponto(pa))
         for ator in self._porcos + self._obstaculos:
             pontos.append(self._transformar_em_ponto(ator))

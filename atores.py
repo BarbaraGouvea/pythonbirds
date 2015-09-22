@@ -122,20 +122,10 @@ class Passaro(Ator):
             self.y=self._y_inicial+ self.velocidade_escalar*math.sin(self._angulo_de_lancamento)*delta_t-(GRAVIDADE*delta_t**2)/2
         return self.x, self.y
 
-
-
-
-
     def lancar(self, angulo, tempo_de_lancamento):
 
         self._angulo_de_lancamento=math.radians(angulo)
         self._tempo_de_lancamento=tempo_de_lancamento
-
-
-
-
-
-
         """
         o self é o a variavel do atributo
         temm atributo de classe ou objeto e tem q descobrir de qual é.
