@@ -31,7 +31,6 @@ class Ator():
     def caracter(self):
         return self._caracter_ativo if self.status == ATIVO else self._caracter_destruido
 
-
     def calcular_posicao(self, tempo):
 
         """
@@ -61,22 +60,15 @@ class Ator():
         :return:
         '''
 
-
-
-
 class Obstaculo(Ator):
     _caracter_ativo = 'O'
-
-
 
 class Porco(Ator):
  _caracter_ativo = '@'
  _caracter_destruido = '+'
 
-
 class Passaro(Ator):
     velocidade_escalar = 10
-
 
     def __init__(self, x=0, y=0):
         """
@@ -104,7 +96,6 @@ class Passaro(Ator):
         :return: booleano
         """
 
-
     def colidir_com_chao(self):
         """
         Método que executa lógica de colisão com o chão. Toda vez que y for menor ou igual a 0,
@@ -113,7 +104,6 @@ class Passaro(Ator):
         if self.y<=0:
             self.status=DESTRUIDO
             self.caracter()
-
 
     def calcular_posicao(self, tempo):
         if self.foi_lancado() and self.status==ATIVO:
@@ -140,8 +130,6 @@ class Passaro(Ator):
         :return:
         """
 
-
-
 class PassaroAmarelo(Passaro):
     velocidade_escalar = 30
     _caracter_ativo = "A"
@@ -152,40 +140,3 @@ class PassaroVermelho(Passaro):
     _caracter_ativo = "V"
     _caracter_destruido = 'v'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #self._tempo_de_lancamento=tempo_de_lancamento
-    #self._tempo_de_lancamento=math.radians(angulo)

@@ -57,7 +57,7 @@ class Fase():
 
         if birds == 0 and pigs!=0:
             return DERROTA
-        elif pigs == 0:  # len(self._passaros)==0 and len(self._porcos)!=0:
+        elif pigs == 0:
             return VITORIA
         else:
             return EM_ANDAMENTO
@@ -111,9 +111,6 @@ class Fase():
             pontos.append(self._transformar_em_ponto(ator))
 
         return pontos
-
-
-
 
     def _transformar_em_ponto(self, ator):
         return Ponto(ator.x, ator.y, ator.caracter())
